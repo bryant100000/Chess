@@ -1,3 +1,11 @@
+//FIXME 
+// - Add castling capability
+// - Add enpassent capability
+// - Add promotion capability
+// - Add checking as a game mechanism
+// - Add checkmate as a game mechanism
+// - Add 3-fold repetition as a game mechanism
+
 import java.util.ArrayList;
 
 import processing.core.PApplet;
@@ -37,12 +45,20 @@ public class ChessGame extends PApplet{
 				setImg(loadImage(gamePieces.get(i).getImageName()));
 		}
 		
+		for (int i = 0; i < gamePieces.size(); i++) {
+			//Initialize movesets
+			gamePieces.get(i).setMoveSet(gamePieces.get(i).generateMoves
+					(gamePieces.get(i).getX(), gamePieces.get(i).getY(), gamePieces));
+		}
+		
 		canHold = true; //A piece can be held if no other piece is being held
 	}
 	
 	public void mouseDragged() {
+		boolean firstClick = true;
 		//If the mouse is clicked
-		if (mouseButton == LEFT) {
+		if (mouseButton == LEFT && firstClick) {
+			firstClick = false; //Don't call this repeatedly while dragging
 			for (int i = 0; i < gamePieces.size(); i++) {
 				if (mouseX > leftCornerX + scale * gamePieces.get(i).getX()
 						&& mouseX < leftCornerX + scale * (gamePieces.get(i).getX() + 1)
@@ -54,16 +70,28 @@ public class ChessGame extends PApplet{
 					canHold = false;
 				}
 			}
-		} //FIXME: Non-white-backline pieces aren't being dragged
+		}
 	}
 	
 	public void mouseReleased() {
 		if (mouseButton == LEFT) {
 			for (int i = 0; i < gamePieces.size(); i++) {
 				if (gamePieces.get(i).isHeld()) {
+					int x = (mouseX - leftCornerX) / scale;
+					int y = (leftCornerY + scale - mouseY) / scale;
+					
 					//Set held value to false when piece is releases
 					gamePieces.get(i).setHeld(false);
 					canHold = true;
+					
+					//If the piece is dropped over a square it can move to, then
+					//move the piece to that square
+					if (gamePieces.get(i).canMoveTo(gamePieces.get(i).getX(), 
+							gamePieces.get(i).getY(), x, y, gamePieces)) {
+						gamePieces.get(i).move(gamePieces.get(i).getX(), 
+								gamePieces.get(i).getY(), x, y, gamePieces);
+						
+					}
 				}
 			}
 		}
@@ -72,37 +100,64 @@ public class ChessGame extends PApplet{
 	public void draw() {
 		background(175);
 		
-		int color = 0;
+		Piece drawLast = null;
 		//Draw the empty chessboard
 		for (int i = 0; i < board.size(); i++) {
 			for (int j = 0; j < board.size(); j++) {
-				//Set color to be black or white
+				//Set color to be dark or white
 				if (board.isWhite(i, j)) {
-					color = 255;
+					fill(250, 250, 230);
 				}
 				else {
-					color = 100;
+					fill(140, 120, 110);
 				}
-				
 				//Draw a grid space at each position, going from bottom
 				//left across, then up a row, repeating
-				fill(color);
-				stroke(0);
+				stroke(125);
 				rect(leftCornerX + i * scale, 
 					leftCornerY - j * scale, scale, scale);
+				
+				//If the player is currently holding a piece that can move there
+				for (int k = 0; k < gamePieces.size(); k++) {
+					if (gamePieces.get(k).isHeld()) {
+						if (gamePieces.get(k).canMoveTo(gamePieces.get(k).getX(),
+								gamePieces.get(k).getY(), i, j, gamePieces)) {	
+							//Highlight/contrast that square to the player
+							if (board.isWhite(i, j)) {
+								fill(235, 225, 240);
+							}
+							else {
+								fill(160, 140, 130);
+							}
+							stroke(75);
+							rect(leftCornerX + i * scale, 
+									leftCornerY - j * scale, scale, scale);
+						}
+						//Then reference it for later
+						drawLast = gamePieces.get(k);
+					}
+				}
+			}
+		}
+
+		//Then draw the pieces at their current locations, if not held
+		for (int i = 0; i < gamePieces.size(); i++) {
+			if (!gamePieces.get(i).isHeld()) {
+				gamePieces.get(i).draw(this);
 			}
 		}
 		
-		
-		//Then draw the pieces at their current locations
-		for (int i = 0; i < gamePieces.size(); i++) {
-			gamePieces.get(i).draw(this);
+		//If a piece was held, draw it last so it is drawn over other pieces
+		if (drawLast != null) {
+			drawLast.draw(this);
 		}
 		
-		//For debugging FIXME
-		text(mouseX + ", " + mouseY, 25, 25);
-		text(gamePieces.get(9).getX() + ", " + gamePieces.get(9).getY(), 100, 25);
-	} 
+		//FIXME debugging text
+		text("" + (mouseX - leftCornerX) / scale + ", " 
+				+ ( ( (leftCornerY + scale - mouseY) / scale ) ), 
+				25, 25);
+		text(leftCornerY + scale - mouseY, 55, 25);
+} 
 	
 	public static void main(String[] args) {
 		//Initialize a new board to play the game on

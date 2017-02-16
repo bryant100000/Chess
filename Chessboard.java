@@ -1,4 +1,4 @@
-
+import java.util.ArrayList;
 
 /* TODO
  * 
@@ -56,5 +56,17 @@ public class Chessboard {
 	//Returns the board's size on either axis
 	public int size() {
 		return dimension;
+	}
+	
+	//Returns a piece at a given index set 
+	//(use hasPiece first to make sure returns properly)
+	public static Piece pieceAt(int x, int y, ArrayList<Piece> pieces) {
+		for (int i = 0; i < pieces.size(); i++) {
+			if (pieces.get(i).getX() == x && pieces.get(i).getY() == y) {
+				return pieces.get(i);
+			}
+		}
+		//Otherwise return null
+		return null;
 	}
 }
