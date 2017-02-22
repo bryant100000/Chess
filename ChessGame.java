@@ -43,10 +43,9 @@ public class ChessGame extends PApplet{
 		for (int i = 0; i < gamePieces.size(); i++) {
 			gamePieces.get(i).
 				setImg(loadImage(gamePieces.get(i).getImageName()));
-		}
-		
-		for (int i = 0; i < gamePieces.size(); i++) {
-			//Initialize movesets
+			//Note at the start we assume nothing is reinforced
+			gamePieces.get(i).setReinforced(false);
+			//and Initialize movesets
 			gamePieces.get(i).setMoveSet(gamePieces.get(i).generateMoves
 					(gamePieces.get(i).getX(), gamePieces.get(i).getY(), gamePieces));
 		}
@@ -80,7 +79,7 @@ public class ChessGame extends PApplet{
 					int x = (mouseX - leftCornerX) / scale;
 					int y = (leftCornerY + scale - mouseY) / scale;
 					
-					//Set held value to false when piece is releases
+					//Set held value to false when piece is released
 					gamePieces.get(i).setHeld(false);
 					canHold = true;
 					
@@ -91,6 +90,12 @@ public class ChessGame extends PApplet{
 						gamePieces.get(i).move(gamePieces.get(i).getX(), 
 								gamePieces.get(i).getY(), x, y, gamePieces);
 						
+						//And after the board changes, reset movesets
+						for (int k = 0; k < gamePieces.size(); k++) {
+							//Reset movesets
+							gamePieces.get(k).setMoveSet(gamePieces.get(k).generateMoves
+									(gamePieces.get(k).getX(), gamePieces.get(k).getY(), gamePieces));
+						}
 					}
 				}
 			}

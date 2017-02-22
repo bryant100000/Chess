@@ -51,11 +51,14 @@ public class Knight extends Piece{
 				i -= 2; //Decrement i backwards, so not to skip the next moveset
 				continue;
 			}
-			//And if the kn ight would move on top of a piece of its own color, don't
+			//And if the knight would move on top of a piece of its own color, don't
 			if (Chessboard.pieceAt(possibleMoves.get(i), 
 				possibleMoves.get(i + 1), pieces) != null 
 					&& Chessboard.pieceAt(possibleMoves.get(i), 
 					possibleMoves.get(i + 1), pieces).getSide() == this.getSide()) {
+				//Reinforce that piece
+				Chessboard.pieceAt(possibleMoves.get(i), 
+						possibleMoves.get(i + 1), pieces).setReinforced(true);
 				possibleMoves.remove(i); //Remove the x-index of the move
 				possibleMoves.remove(i); //Remove the y-index of the move
 				i -= 2;

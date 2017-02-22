@@ -44,6 +44,18 @@ public abstract class Piece extends PApplet{
 		return hasMoved;
 	}
 	
+
+	//Represent's a piece's reinforced status
+	private boolean reinforced;
+	
+	public boolean isReinforced() {
+		return reinforced;
+	}
+	
+	public void setReinforced(boolean reinforceStatus) {
+		reinforced = reinforceStatus;
+	}
+	
 	//Returns if a piece is white (and conversely, is black)
 	public boolean isWhite() {
 		return side == 0;
@@ -91,12 +103,6 @@ public abstract class Piece extends PApplet{
 		else if (this.canMoveTo(currX, currY, x, y, pieces)) {
 			xPos = x;
 			yPos = y;
-		}
-		for (int i = 0; i < pieces.size(); i++) {
-			//Re-reference all movesets to their new, updated movesets as the result
-			//of the moved piece's change to the board
-			pieces.get(i).setMoveSet(pieces.get(i).generateMoves(pieces.get(i).getX(),
-				pieces.get(i).getY(), pieces));
 		}
 		if (!hasMoved) { //If the piece hasn't moved, record that it has now
 			hasMoved = true;
@@ -200,5 +206,34 @@ public abstract class Piece extends PApplet{
 
 	public void setImg(PImage img) {
 		this.img = img;
+	}
+	
+	//Iterate through each piece of one color (white or black) and (expect pawn) look at whether or not each array
+	//index of the board (0 - 7) can be moved to by a piece of that color; note white == 0, black == 1
+	public ArrayList<Integer> generateAllMoves(int side, ArrayList<Piece> pieces) {
+		ArrayList<Integer> allMoves = new ArrayList<Integer>();
+		boolean foundMatch = false;
+		for (int i = 0; i < 7; i++) {
+			for (int j = 0; j < 7; j++) {
+				foundMatch = false;
+				for (int k = 0; k < pieces.size(); k++) {
+					//If the piece in question is the side in question and can move to said position (and isn't pawn),
+					//OR if the piece in question is a pawn and can take at the position in question
+					if ((pieces.get(k).getSide() == side && pieces.get(k).canMoveTo(pieces.get(k).getX(), 
+							pieces.get(k).getY(), i, j, pieces) && !(pieces.get(k) instanceof Pawn)) || 
+							(pieces.get(k).getSide() == side && pieces.get(k) instanceof Pawn && 
+							Pawn.canTake(pieces.get(k).getX(), pieces.get(k).getY(), i, j, pieces, pieces.get(k)))) {
+						foundMatch = true;
+						break;
+					}
+				}
+				//If a piece of the side requested can move (and take) at the following square, then add it
+				if (foundMatch) {
+					allMoves.add(i);
+					allMoves.add(j);
+				}
+			}
+		}
+	return allMoves;
 	}
 }

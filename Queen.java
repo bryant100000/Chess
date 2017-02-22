@@ -25,6 +25,7 @@ public class Queen extends Piece{
 		for (int i = x + 1; i < 8; i++) { //Right side
 			if (Chessboard.pieceAt(i, y, pieces) != null 
 					&& Chessboard.pieceAt(i, y, pieces).getSide() == this.getSide()) {
+				Chessboard.pieceAt(i, y, pieces).setReinforced(true);
 				break;
 			}
 			else if (Chessboard.pieceAt(i, y, pieces) != null 
@@ -41,6 +42,7 @@ public class Queen extends Piece{
 		for (int i = x - 1; i >= 0; i--) { //Left side
 			if (Chessboard.pieceAt(i, y, pieces) != null 
 					&& Chessboard.pieceAt(i, y, pieces).getSide() == this.getSide()) {
+				Chessboard.pieceAt(i, y, pieces).setReinforced(true);
 				break;
 			}
 			else if (Chessboard.pieceAt(i, y, pieces) != null 
@@ -56,6 +58,7 @@ public class Queen extends Piece{
 		for (int i = y + 1; i < 8; i++) { //Upwards
 			if (Chessboard.pieceAt(x, i, pieces) != null 
 					&& Chessboard.pieceAt(x, i, pieces).getSide() == this.getSide()) {
+				Chessboard.pieceAt(x, i, pieces).setReinforced(true);
 				break;
 			}
 			else if (Chessboard.pieceAt(x, i, pieces) != null 
@@ -71,6 +74,7 @@ public class Queen extends Piece{
 		for (int i = y - 1; i >= 0; i--) { //Downwards
 			if (Chessboard.pieceAt(x, i, pieces) != null 
 					&& Chessboard.pieceAt(x, i, pieces).getSide() == this.getSide()) {
+				Chessboard.pieceAt(x, i, pieces).setReinforced(true);
 				break;
 			}
 			else if (Chessboard.pieceAt(x, i, pieces) != null 
@@ -92,6 +96,7 @@ public class Queen extends Piece{
 					&& Chessboard.pieceAt(i, j, pieces).getSide() == this.getSide()) {
 				//If a collision is found/while going in order, i.e. a piece is found on a square 
 				//in the path of travel that is the same color/side as this piece
+				Chessboard.pieceAt(i, j, pieces).setReinforced(true);
 				break; //You can't move there
 			}
 			else if (Chessboard.pieceAt(i, j, pieces) != null 
@@ -115,6 +120,7 @@ public class Queen extends Piece{
 					&& Chessboard.pieceAt(i, j, pieces).getSide() == this.getSide()) {
 				//If a collision is found/while going in order, i.e. a piece is found on a square 
 				//in the path of travel that is the same color/side as this piece
+				Chessboard.pieceAt(i, j, pieces).setReinforced(true);
 				break; //You can't move there
 			}
 			else if (Chessboard.pieceAt(i, j, pieces) != null 
@@ -138,6 +144,7 @@ public class Queen extends Piece{
 					&& Chessboard.pieceAt(i, j, pieces).getSide() == this.getSide()) {
 				//If a collision is found/while going in order, i.e. a piece is found on a square 
 				//in the path of travel that is the same color/side as this piece
+				Chessboard.pieceAt(i, j, pieces).setReinforced(true);
 				break; //You can't move there
 			}
 			else if (Chessboard.pieceAt(i, j, pieces) != null 
@@ -161,6 +168,7 @@ public class Queen extends Piece{
 					&& Chessboard.pieceAt(i, j, pieces).getSide() == this.getSide()) {
 				//If a collision is found/while going in order, i.e. a piece is found on a square 
 				//in the path of travel that is the same color/side as this piece
+				Chessboard.pieceAt(i, j, pieces).setReinforced(true);
 				break; //You can't move there
 			}
 			else if (Chessboard.pieceAt(i, j, pieces) != null 

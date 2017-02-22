@@ -54,6 +54,17 @@ public class King extends Piece{
 			else if (Chessboard.pieceAt(possibleMoves.get(i), possibleMoves.get(i + 1),
 					pieces) != null && Chessboard.pieceAt(possibleMoves.get(i), 
 							possibleMoves.get(i + 1), pieces).getSide() == this.getSide()) {
+				Chessboard.pieceAt(possibleMoves.get(i), possibleMoves.get(i + 1), pieces).setReinforced(true);
+				possibleMoves.remove(i); //Remove the x-index of the move
+				possibleMoves.remove(i); //Remove the y-index of the move
+				i -= 2;
+			}
+			//And movements that take reinforced pieces
+			else if (Chessboard.pieceAt(possibleMoves.get(i), possibleMoves.get(i + 1),
+					pieces) != null && Chessboard.pieceAt(possibleMoves.get(i), 
+						possibleMoves.get(i + 1), pieces).getSide() != this.getSide()
+							&& Chessboard.pieceAt(possibleMoves.get(i), 
+								possibleMoves.get(i + 1), pieces).isReinforced() == true) {
 				possibleMoves.remove(i); //Remove the x-index of the move
 				possibleMoves.remove(i); //Remove the y-index of the move
 				i -= 2;
@@ -111,6 +122,8 @@ public class King extends Piece{
 							//If a set of coordinates in 
 							if (pieces.get(j).getMoveSet().get(k) == possibleMoves.get(i)
 									&& pieces.get(j).getMoveSet().get(k + 1) == possibleMoves.get(i+1)) {
+								System.out.println("Removing " + possibleMoves.get(i) + " and " + possibleMoves.get(i + 1) +
+										" because of " + pieces.get(j).getImageName());
 								possibleMoves.remove(i);
 								possibleMoves.remove(i);
 								i -= 2;

@@ -37,6 +37,7 @@ public class Rook extends Piece{
 		for (int i = x + 1; i < 8; i++) { //Right side
 			if (Chessboard.pieceAt(i, y, pieces) != null 
 					&& Chessboard.pieceAt(i, y, pieces).getSide() == this.getSide()) {
+				Chessboard.pieceAt(i, y, pieces).setReinforced(true);
 				break;
 			}
 			else if (Chessboard.pieceAt(i, y, pieces) != null 
@@ -53,6 +54,7 @@ public class Rook extends Piece{
 		for (int i = x - 1; i >= 0; i--) { //Left side
 			if (Chessboard.pieceAt(i, y, pieces) != null 
 					&& Chessboard.pieceAt(i, y, pieces).getSide() == this.getSide()) {
+				Chessboard.pieceAt(i, y, pieces).setReinforced(true);
 				break;
 			}
 			else if (Chessboard.pieceAt(i, y, pieces) != null 
@@ -68,6 +70,7 @@ public class Rook extends Piece{
 		for (int i = y + 1; i < 8; i++) { //Upwards
 			if (Chessboard.pieceAt(x, i, pieces) != null 
 					&& Chessboard.pieceAt(x, i, pieces).getSide() == this.getSide()) {
+				Chessboard.pieceAt(x, i, pieces).setReinforced(true);
 				break;
 			}
 			else if (Chessboard.pieceAt(x, i, pieces) != null 
@@ -83,6 +86,7 @@ public class Rook extends Piece{
 		for (int i = y - 1; i >= 0; i--) { //Downwards
 			if (Chessboard.pieceAt(x, i, pieces) != null 
 					&& Chessboard.pieceAt(x, i, pieces).getSide() == this.getSide()) {
+				Chessboard.pieceAt(x, i, pieces).setReinforced(true);
 				break;
 			}
 			else if (Chessboard.pieceAt(x, i, pieces) != null 

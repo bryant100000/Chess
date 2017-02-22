@@ -39,6 +39,7 @@ public class Bishop extends Piece{
 					&& Chessboard.pieceAt(i, j, pieces).getSide() == this.getSide()) {
 				//If a collision is found/while going in order, i.e. a piece is found on a square 
 				//in the path of travel that is the same color/side as this piece
+				Chessboard.pieceAt(i, j, pieces).setReinforced(true);
 				break; //You can't move there
 			}
 			else if (Chessboard.pieceAt(i, j, pieces) != null 
@@ -62,6 +63,7 @@ public class Bishop extends Piece{
 					&& Chessboard.pieceAt(i, j, pieces).getSide() == this.getSide()) {
 				//If a collision is found/while going in order, i.e. a piece is found on a square 
 				//in the path of travel that is the same color/side as this piece
+				Chessboard.pieceAt(i, j, pieces).setReinforced(true);
 				break; //You can't move there
 			}
 			else if (Chessboard.pieceAt(i, j, pieces) != null 
@@ -85,6 +87,7 @@ public class Bishop extends Piece{
 					&& Chessboard.pieceAt(i, j, pieces).getSide() == this.getSide()) {
 				//If a collision is found/while going in order, i.e. a piece is found on a square 
 				//in the path of travel that is the same color/side as this piece
+				Chessboard.pieceAt(i, j, pieces).setReinforced(true);
 				break; //You can't move there
 			}
 			else if (Chessboard.pieceAt(i, j, pieces) != null 
@@ -108,6 +111,7 @@ public class Bishop extends Piece{
 					&& Chessboard.pieceAt(i, j, pieces).getSide() == this.getSide()) {
 				//If a collision is found/while going in order, i.e. a piece is found on a square 
 				//in the path of travel that is the same color/side as this piece
+				Chessboard.pieceAt(i, j, pieces).setReinforced(true);
 				break; //You can't move there
 			}
 			else if (Chessboard.pieceAt(i, j, pieces) != null 
