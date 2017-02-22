@@ -121,9 +121,7 @@ public class King extends Piece{
 						for (int k = 0; k < pieces.get(j).getMoveSet().size(); k += 2) {
 							//If a set of coordinates in 
 							if (pieces.get(j).getMoveSet().get(k) == possibleMoves.get(i)
-									&& pieces.get(j).getMoveSet().get(k + 1) == possibleMoves.get(i+1)) {
-								System.out.println("Removing " + possibleMoves.get(i) + " and " + possibleMoves.get(i + 1) +
-										" because of " + pieces.get(j).getImageName());
+									&& pieces.get(j).getMoveSet().get(k + 1) == possibleMoves.get(i + 1)) {
 								possibleMoves.remove(i);
 								possibleMoves.remove(i);
 								i -= 2;

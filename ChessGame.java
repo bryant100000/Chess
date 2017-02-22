@@ -22,6 +22,8 @@ public class ChessGame extends PApplet{
 	
 	private boolean canHold;
 	
+	public boolean hasLoaded = false;
+	
 	public void settings() {
 		//Made so that changing the dimensions field initialization
 		//will change the scale of the entire game ** note above
@@ -89,12 +91,9 @@ public class ChessGame extends PApplet{
 							gamePieces.get(i).getY(), x, y, gamePieces)) {
 						gamePieces.get(i).move(gamePieces.get(i).getX(), 
 								gamePieces.get(i).getY(), x, y, gamePieces);
-						
-						//And after the board changes, reset movesets
+						hasLoaded = false;
 						for (int k = 0; k < gamePieces.size(); k++) {
-							//Reset movesets
-							gamePieces.get(k).setMoveSet(gamePieces.get(k).generateMoves
-									(gamePieces.get(k).getX(), gamePieces.get(k).getY(), gamePieces));
+							gamePieces.get(k).setReinforced(false);
 						}
 					}
 				}
@@ -121,6 +120,19 @@ public class ChessGame extends PApplet{
 				stroke(125);
 				rect(leftCornerX + i * scale, 
 					leftCornerY - j * scale, scale, scale);
+				
+				if (!hasLoaded) {
+					for (int k = 0; k < gamePieces.size(); k++) {
+						//Reset movesets
+						gamePieces.get(k).setMoveSet(gamePieces.get(k).generateMoves
+								(gamePieces.get(k).getX(), gamePieces.get(k).getY(), gamePieces));
+					} //Load the moves twice, 2nd time gets new interactions
+					for (int k = 0; k < gamePieces.size(); k++) {
+						gamePieces.get(k).setMoveSet(gamePieces.get(k).generateMoves
+								(gamePieces.get(k).getX(), gamePieces.get(k).getY(), gamePieces));
+					}
+					hasLoaded = true;
+				}
 				
 				//If the player is currently holding a piece that can move there
 				for (int k = 0; k < gamePieces.size(); k++) {
